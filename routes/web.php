@@ -16,7 +16,11 @@ Route::get('/', function () {
 });
 
 Route::get('hussain','TestController@show');
-Route::get('login','LoginController@login');
+Route::get('login','LoginController@login')->name('login');
 Route::post('login','LoginController@authenticate');
-Route::get('dashboard','DashboardController@dashboard');
+
 Route::get('table','TableController@table');
+
+Route::group(['middleware' => ['auth']], function () {
+   Route::get('dashboard','DashboardController@dashboard');
+});

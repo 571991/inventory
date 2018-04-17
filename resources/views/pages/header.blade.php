@@ -192,7 +192,7 @@
                 </li>
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span><i class="fa fa-user"></i>&nbsp;Khairul Islam</span>
+                        <span><i class="fa fa-user"></i>&nbsp;{{ Auth::user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu" >                        
                         <li class="user-footer" style="background-color: white;">
@@ -200,7 +200,7 @@
                                 <a href="#" class="btn btn-default btn-flat" style="border: 1px solid #3C8DBC;">Profile</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat" style="border: 1px solid #3C8DBC;">Sign out</a>
+                                <a href="{{ Auth::logout() }}" class="btn btn-default btn-flat" style="border: 1px solid #3C8DBC;">Sign out</a>
                             </div>
                         </li>
                     </ul>
