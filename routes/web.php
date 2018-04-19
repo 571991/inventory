@@ -19,6 +19,7 @@ Route::get('hussain', 'TestController@show');
 Route::get('login', 'LoginController@login')->name('login');
 Route::post('login', 'LoginController@authenticate');
 Route::get('registration', 'RegistrationController@registration');
+Route::post('registration', 'RegistrationController@store');
 
 Route::get('table', 'TableController@table');
 

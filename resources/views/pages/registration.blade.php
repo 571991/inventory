@@ -17,11 +17,25 @@
                         <hr />
                     </div>
                 </div> 
+                @if (session('errorArray'))
+            <div class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                @foreach($errors->all() AS $key => $value)
+                <strong>{{ $value }}</strong><br>
+                @endforeach
+            </div>
+            @endif
+            
+            @if (session('error')) 
+            <div class="alert alert-danger"> 
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 
+                <strong>{{ session('error') }}</strong>
+            </div> @endif
                 <div class="main-login main-center">
-                    <form class="form-horizontal" method="post" action="#">
-
+                    <form class="form-horizontal" method="post" action="{{ URL::to('registration') }}" multipart/form-data >
+                           {{ csrf_field() }}
                         <div class="form-group">
-                            <label for="name" class="cols-sm-2 control-label">Your Name</label>
+                            <label for="name" class="cols-sm-2 control-label">Your Name <span style="color:red">*</span></label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
@@ -31,7 +45,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="mobile" class="cols-sm-2 control-label">Mobile</label>
+                            <label for="mobile" class="cols-sm-2 control-label">Mobile <span style="color:red">*</span></label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-mobile fa" aria-hidden="true"></i></span>
@@ -40,7 +54,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="cols-sm-2 control-label">Your Email</label>
+                            <label for="email" class="cols-sm-2 control-label">Your Email <span style="color:red">*</span></label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
@@ -72,7 +86,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="type" class="cols-sm-2 control-label">Type</label>
+                            <label for="type" class="cols-sm-2 control-label">Type <span style="color:red">*</span></label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
@@ -86,7 +100,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password" class="cols-sm-2 control-label">Password</label>
+                            <label for="password" class="cols-sm-2 control-label">Password <span style="color:red">*</span></label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
@@ -96,17 +110,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+                            <label for="confirm" class="cols-sm-2 control-label">Confirm Password <span style="color:red">*</span></label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                                    <input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+                                    <input type="password" class="form-control" name="confirmpass" id="confirm"  placeholder="Confirm your Password"/>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group ">
-                            <button type="button" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
                         </div>
                         <div class="login-register">
                             <a href="{{ URL::to('login') }}"><h4>Login</h4></a>
