@@ -197,10 +197,11 @@
                     <ul class="dropdown-menu" >                        
                         <li class="user-footer" style="background-color: white;">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat" style="border: 1px solid #3C8DBC;">Profile</a>
+                                <a href="{{ URL::to('profile') }}" class="btn btn-default btn-flat" style="border: 1px solid #3C8DBC;">Profile</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{ Auth::logout() }}" class="btn btn-default btn-flat" style="border: 1px solid #3C8DBC;">Sign out</a>
+                                
+                                <a class="btn btn-default btn-flat" style="border: 2px solid #1E4770;" href="{{ url('/logout') }}">Logout</a>
                             </div>
                         </li>
                     </ul>

@@ -26,20 +26,21 @@
             </div>
             @endif
             
-            @if (session('error')) 
-            <div class="alert alert-danger"> 
+            
+            @if (session('success')) 
+            <div class="alert alert-success"> 
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 
-                <strong>{{ session('error') }}</strong>
+                <strong>{{ session('success') }}</strong>
             </div> @endif
                 <div class="main-login main-center">
-                    <form class="form-horizontal" method="post" action="{{ URL::to('registration') }}" multipart/form-data >
+                    <form class="form-horizontal" method="post" action="{{ URL::to('registration') }}" enctype="multipart/form-data" >
                            {{ csrf_field() }}
                         <div class="form-group">
                             <label for="name" class="cols-sm-2 control-label">Your Name <span style="color:red">*</span></label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name"/>
+                                    <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" placeholder="Enter your Name"/>
                                 </div>
                             </div>
                         </div>
@@ -49,7 +50,7 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-mobile fa" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="mobile" id="username"  placeholder="Enter your Mobile number"/>
+                                    <input type="text" class="form-control" name="mobile" id="username" value="{{ old('mobile') }}" placeholder="Enter your Mobile number"/>
                                 </div>
                             </div>
                         </div>
@@ -58,7 +59,7 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+                                    <input type="text" class="form-control" name="email" id="email" onchange="checkEmail(this.value)" value="{{ old('email') }}" placeholder="Enter your Email"/>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +71,7 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-building fa" aria-hidden="true"></i></span>
-                                    <textarea name="address" cols="152" rows="1" placeholder="Enter your Address"></textarea>
+                                    <textarea name="address" cols="152" rows="1" value="{{ old('address') }}" placeholder="Enter your Address"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -90,8 +91,8 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-                                    <select id="select"  name="type" style="height: 40px; width: 1165px;">
-                                        <option>Select Type</option>
+                                    <select id="select"  name="type" value="{{ old('type') }}" style="height: 40px; width: 1165px;">
+                                        <option value="">Select Type</option>
                                         <option value="1">District Manager</option>
                                         <option value="2">Branch Manager</option>
                                     </select>
@@ -123,14 +124,52 @@
                             <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
                         </div>
                         <div class="login-register">
-                            <a href="{{ URL::to('login') }}"><h4>Login</h4></a>
+                            <a href="{{ URL::to('/') }}"><h4>Login</h4></a>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-
-        @include('pages/footer_script')
+        
+            @include('pages/footer_script')
+            <script>
+                
+          function checkEmail(email){ 
+         
+          $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            
+            $.ajax({
+                type: 'POST',
+                url: 'checkEmail',
+                dataType: 'json',
+                data: {
+                    email: email
+                },
+                
+                success: function (response) {
+                    var obj = response;
+                    if (obj.output === "success") {
+                      alert(obj);
+//                        console.log(obj.placeList);
+//                        var html = '<select class="form-control" id="local_tour_near_by_place_id" name="local_tour_near_by_place_id">';
+//
+//                        $.each(obj.placeList, function (key, Event) {
+//                            html += '<option value="' + Event.destination_nearby_place_id + '">' + Event.destination_nearby_place_name + '</option>';
+//                        });
+//
+//                        html += '</select>';
+//                        $("#desDisDiv").html(html);
+                    } else {
+                        alert(obj.msg);
+                    }
+                }
+            });
+    }  
+        </script>
     </body>
 </html>
