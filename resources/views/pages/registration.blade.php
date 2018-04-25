@@ -6,6 +6,7 @@
         <title>Registration</title>
         <meta charset="UTF-8">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+	<meta name="csrf-token" content="{{ csrf_token() }}">
         @include('pages/header_script')
     </head>
     <body>
@@ -49,9 +50,10 @@
                             <label for="mobile" class="cols-sm-2 control-label">Mobile <span style="color:red">*</span></label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-mobile fa" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="mobile" id="username" value="{{ old('mobile') }}" placeholder="Enter your Mobile number"/>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="mobile" id="username" onchange="checkMobile(this.value)" value="{{ old('mobile') }}" placeholder="Enter your Mobile number"/>
                                 </div>
+                                <p style="font-size: 15px; padding-left: 40px;" id="mobileId"></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -61,6 +63,7 @@
                                     <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
                                     <input type="text" class="form-control" name="email" id="email" onchange="checkEmail(this.value)" value="{{ old('email') }}" placeholder="Enter your Email"/>
                                 </div>
+                                <p style="font-size: 15px; padding-left: 40px;" id="emailId"></p>
                             </div>
                         </div>
 
@@ -93,8 +96,8 @@
                                     <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
                                     <select id="select"  name="type" value="{{ old('type') }}" style="height: 40px; width: 1165px;">
                                         <option value="">Select Type</option>
-                                        <option value="1">District Manager</option>
-                                        <option value="2">Branch Manager</option>
+                                        <option value="2">District Manager</option>
+                                        <option value="3">Branch Manager</option>
                                     </select>
                                 </div>
                             </div>
@@ -133,17 +136,44 @@
 
         
             @include('pages/footer_script')
+            
             <script>
                 
-          function checkEmail(email){ 
-         
-          $.ajaxSetup({
+                 $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            
+                
+           function checkMobile(mobile){
+                   
             $.ajax({
+                type: 'POST',
+                url: 'checkMobile',
+                dataType: 'json',
+                data: {
+                    mobile: mobile
+                },
+                
+                success: function (response) {
+                   var obj = response; 
+                   if(obj.output === "exists"){
+                       $('#mobileId').text('Mobile number Already Exists');
+                       $('#mobileId').css("color","red");
+                }
+                else{
+                       $('#mobileId').text('Mobile number Available');
+                       $('#mobileId').css("color","green");
+                }
+                 
+                }
+            });
+                }
+                
+          
+         function checkEmail(email){ 
+         
+         $.ajax({
                 type: 'POST',
                 url: 'checkEmail',
                 dataType: 'json',
@@ -152,21 +182,16 @@
                 },
                 
                 success: function (response) {
-                    var obj = response;
-                    if (obj.output === "success") {
-                      alert(obj);
-//                        console.log(obj.placeList);
-//                        var html = '<select class="form-control" id="local_tour_near_by_place_id" name="local_tour_near_by_place_id">';
-//
-//                        $.each(obj.placeList, function (key, Event) {
-//                            html += '<option value="' + Event.destination_nearby_place_id + '">' + Event.destination_nearby_place_name + '</option>';
-//                        });
-//
-//                        html += '</select>';
-//                        $("#desDisDiv").html(html);
-                    } else {
-                        alert(obj.msg);
-                    }
+                    var obj = response; 
+                   if(obj.output === "exists"){
+                       $('#emailId').text('Email Already Exists');
+                       $('#emailId').css("color","red");
+                }
+                else{
+                       $('#emailId').text('Email Available');
+                       $('#emailId').css("color","green");
+                }
+//                    
                 }
             });
     }  

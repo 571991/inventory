@@ -21,6 +21,7 @@ Route::post('login', 'LoginController@authenticate');
 Route::get('registration', 'RegistrationController@registration');
 Route::post('registration','RegistrationController@store');
 Route::post('checkEmail','RegistrationController@checkEmail');
+Route::post('checkMobile','RegistrationController@checkMobile');
 Route::get('table', 'TableController@table');
 /*
  * Logout route
@@ -33,8 +34,10 @@ Route::get('logout', function () {
  
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', 'DashboardController@dashboard');
-    Route::get('profile', 'ProfileController@profile'); 
-    
+    Route::get('profile/{id}', 'ProfileController@profile'); 
+    Route::get('editProfile/{id}', 'ProfileController@updateProfile'); 
+    Route::get('changePassword', 'ProfileController@changePassword'); 
+    Route::post('editProfile/{id}', 'ProfileController@updateProfile');
 });
 
 

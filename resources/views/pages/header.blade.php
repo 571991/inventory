@@ -197,7 +197,7 @@
                     <ul class="dropdown-menu" >                        
                         <li class="user-footer" style="background-color: white;">
                             <div class="pull-left">
-                                <a href="{{ URL::to('profile') }}" class="btn btn-default btn-flat" style="border: 1px solid #3C8DBC;">Profile</a>
+                                <a href="{{ URL::to('profile/'.Auth::user()->id) }}" class="btn btn-default btn-flat" style="border: 1px solid #3C8DBC;">Profile</a>
                             </div>
                             <div class="pull-right">
                                 
